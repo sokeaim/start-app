@@ -11,6 +11,7 @@ function createWindow() {
             nodeIntegration: true,
         },
     });
+    mainWindow.webContents.openDevTools();
     mainWindow.loadFile('index.html');
     mainWindow.on('closed', function () {
         mainWindow = null;
@@ -35,17 +36,21 @@ app.on('activate', function () {
 });
 
 ipcMain.on('app_version', (event) => {
+    console.log(app.getVersion());
     event.sender.send('app_version', { version: app.getVersion() });
 });
 
 autoUpdater.on('update-available', () => {
+    console.log("update_available");
     mainWindow.webContents.send('update_available');
 });
 
 autoUpdater.on('update-downloaded', () => {
+    console.log("update_downloaded");
     mainWindow.webContents.send('update_downloaded');
 });
 
 ipcMain.on('restart_app', () => {
+    console.log("restart_app");
     autoUpdater.quitAndInstall();
 });
