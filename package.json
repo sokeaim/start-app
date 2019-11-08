@@ -1,0 +1,28 @@
+{
+  "name": "start-app",
+  "version": "1.0.0",
+  "description": "test electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sokeaim/start-app.git"
+  },
+  "author": "im sokea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sokeaim/start-app/issues"
+  },
+  "homepage": "https://github.com/sokeaim/start-app#readme",
+  "devDependencies": {
+    "electron": "^7.1.1",
+    "electron-builder": "^22.1.0"
+  },
+  "dependencies": {
+    "electron-updater": "^4.2.0"
+  }
+}
