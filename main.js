@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
+
 let mainWindow;
 
 function createWindow() {
@@ -37,24 +38,14 @@ ipcMain.on('app_version', (event) => {
     event.sender.send('app_version', { version: app.getVersion() });
 });
 
-autoUpdater.on('checking-for-update', () => {
-    sendStatusToWindow('Checking for update...');
-})
-autoUpdater.on('update-available', (ev, info) => {
-    sendStatusToWindow('Update available.');
-})
-autoUpdater.on('update-not-available', (ev, info) => {
-    sendStatusToWindow('Update not available.');
-})
-autoUpdater.on('error', (ev, err) => {
-    sendStatusToWindow('Error in auto-updater.');
-})
-autoUpdater.on('download-progress', (ev, progressObj) => {
-    sendStatusToWindow('Download progress...');
-})
-autoUpdater.on('update-downloaded', (ev, info) => {
-    sendStatusToWindow('Update downloaded; will install in 5 seconds');
+autoUpdater.on('update-available', () => {
+    mainWindow.webContents.send('update_available');
 });
+
+autoUpdater.on('update-downloaded', () => {
+    mainWindow.webContents.send('update_downloaded');
+});
+
 ipcMain.on('restart_app', () => {
     autoUpdater.quitAndInstall();
 });
